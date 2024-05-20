@@ -1,0 +1,277 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-shadow: border-box;
+}
+
+
+body{
+  background:#FCF4E7;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Jersey 25 Charted", sans-serif;
+  font-weight: 400;
+}
+
+.navbar{
+  background: #F4BBAA;
+  width: 100%;
+  top: 0;
+  text-align: center;
+  position: absolute;
+  box-shadow: 0px 5px 0px 0px rgba(0,0,0,1);
+  font-family: "Concert one", sans-serif;
+  color: black;
+  height: 50px;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Anton", sans-serif;
+}
+
+.content .welcome{
+  position: absolute;
+  top: 4rem;
+}
+
+.content .welcome h1{
+  font-size: 5rem;
+  font-family: "Anton",Sans-Serif;
+  color: #F4BBAA;
+  text-shadow: 2px 5px black;
+  -webkit-text-stroke: 2px black;
+}
+
+.content .btn1, .content .btn2, .content .btn3{
+  background:#F5EB00 ;
+  font-size: 2rem;
+  width: 15rem;
+  text-align: center;
+  border: 3px solid black;
+  font-family: "Anton", sans-serif;
+  box-shadow: 0px 5px 0px 0px rgba(0,0,0,1);
+  margin: 10px;
+}
+
+.content .btn1:hover, .content .btn2:hover, .content .btn3:hover{
+  box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+  width: 7rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.content h4{
+  font-size: 10px;
+  font-weight: 200;
+  position: absolute;
+  bottom: 0;
+}
+
+
+
+.show-popup{
+  display: none;
+ 
+}
+
+.popup-about{
+  font-family: "Anton", sans-serif;
+  background:#F4BBAA  ;
+  width: 300px;
+  height: 500px;
+  z-index: 10;
+  position: absolute;
+  border: 5px solid black;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+  animation: slideUp .2s ease-in-out;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
+}
+
+.popup-about .close{
+  font-size: 3rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.popup-about .logo{
+  font-size: 8rem;
+ }
+
+.popup-about .name{
+  font-size: 3rem;
+}
+
+.popup-about .deskripsi{
+  
+  
+  text-align: center;
+}
+
+.popup-about .deskripsi p{
+  font-size: 0.7rem;
+  font-weight: 200;
+}
+
+.chatbot{
+  width: 300px;
+  overflow: hidden;
+  background: #FCF4E7;
+  border-radius: 20px;
+  box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+  border: 5px solid black;
+  z-index: 5;
+  position: absolute;
+  opacity: 1;
+  animation: slideUp .2s ease-in-out;
+ 
+}
+.chatbot .chatbox{
+  overflow-y: auto;
+  padding: 15px 20px 70px;
+  height: 350px;
+  max-width: 300px;
+  overflow-x: hidden;
+}
+.chatbot .header{
+  background: black;
+  padding: 0 12px;
+  text-align: center;
+  border-radius:20px 20px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Anton", sans-serif;
+  color: white;
+  justify-content: space-between;
+}
+
+.chatbot .header h2{
+  font-size: 2rem;
+  font-weight: 400;
+}
+.chatbot .header i{
+  font-size: 2rem;
+}
+
+.chatbox .chat{
+  display: flex;
+  animation: animasi 4s ease;
+  margin-bottom: 10px;
+}
+
+@keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+@keyframes animasi {
+  0%{
+    translateY(-50px)
+  }
+  100%{
+    translateY(0)
+  }
+}
+
+
+.chatbox .chat p{
+  max-width: 200px;
+  background: #F4BBAA;
+  padding: 5px;
+  border-radius:5px;
+  border: 2px solid black;
+  white-space: pre-wrap;
+  font-size: 1rem;
+}
+
+
+
+.chatbox .chat i{
+  font-size: 1.9rem;
+  margin-top: 1rem;
+  margin-right:5px;
+  text-align: center;
+  
+}
+
+.chatbox .outgoing{
+  justify-content: flex-end;
+  margin: 20px 10px;
+  border-radius: 5px;
+  
+}
+
+.chatbox .outgoing p {
+  background: #F5EB00;
+}
+
+.chatbot .chat-input{
+  position: relative;
+  width: 300px;
+  bottom: 0;
+  padding: 10px 3px;
+  border-top: 1px solid black;
+  display: flex;
+  justify-content: center;
+ 
+}
+
+.chat-input i{
+  font-size: 1.5rem;
+  position: absolute;
+  right: 20px;
+  top: 16px;
+}
+
+.chat-input textarea{
+  width: 270px;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header h2{
+  font-size: 1rem;
+  color: #FCF4E7;
+}
+
+@media screen and (min-width:1150px) {
+  .chatbot{
+    width: 700px;
+    
+  }
+  .chatbot .chatbox{
+    max-width: 700px;
+  }
+  .chat-input textarea{
+    width: 670px;
+  }
+  .chatbot .chat-input{
+    width: 700px;
+  }
+  .popup-about{
+    width:800px;
+  }
+}
