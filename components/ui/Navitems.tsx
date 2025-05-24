@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { Button } from './button'
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 
 const navItems = [
     { name: "Home", path: "/" },
@@ -24,7 +25,15 @@ const Navitems = () => {
                 {name}
                 </Link>
         )))}
-        <Button>sign in</Button>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+        <SignedOut>
+          <SignInButton mode='modal'>
+            <Button className='bg-black text-white hover:bg-gray-800'>Sign In</Button>
+          </SignInButton>
+        
+        </SignedOut>
     </nav>
   )
 }
