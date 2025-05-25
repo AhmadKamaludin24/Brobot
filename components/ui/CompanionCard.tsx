@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./button";
+import Link from "next/link";
 
 interface CompanionCardProps {
   id: string;
@@ -45,8 +46,10 @@ const CompanionCard = ({
       </div>
       <h1 className="pt-4 text-xl text-ellipsis">{name}</h1>
       <h1 className="text-2xl font-semibold text-clip pb-12 max-sm:pb-7">{topic}</h1>
-
-      <Button className="w-full">Start lessons</Button>
+      <Link href={`/companions/${id}`}>
+         <Button className="w-full">Start lessons</Button>
+      </Link>
+     
       <p className="pt-2">{duration} minutes</p>
     </div>
   );

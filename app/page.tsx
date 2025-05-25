@@ -6,9 +6,10 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="text-black w-full min-h-screen relative overflow-hidden">
+    <main className="pt-24 text-black w-full min-h-screen relative overflow-hidden">
       <HomeSection/>
-      <CompanionsSection/>
+      <CompanionsSection searchInput={false}/>
+      
     </main>
   );
 }

@@ -29,7 +29,7 @@ const Navitems = () => {
           <UserButton />
         </SignedIn>
         <SignedOut>
-          <SignInButton mode='modal'>
+          <SignInButton>
             <Button className='bg-black text-white hover:bg-gray-800'>Sign In</Button>
           </SignInButton>
         

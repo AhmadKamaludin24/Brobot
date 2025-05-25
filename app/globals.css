@@ -120,6 +120,6 @@
     @apply bg-background text-foreground;
   }
   .navbar {
-    @apply flex mx-auto items-center justify-between w-full px-24 max-sm:px-3 py-5 ;
+    @apply flex mx-auto items-center justify-between w-full px-24 max-sm:px-3 py-5 fixed z-50 bg-white;
   }
 }
