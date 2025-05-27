@@ -28,7 +28,7 @@ const Page = async ({ params }: companionSession) => {
           <h1 className="text-2xl font-bold">{companion.name}</h1>
           <h2>{companion.topic}</h2>
         </article>
-        <CompanionSessionComponent {...companion} companionId={id} userName={user.username!} userAvatar={user.imageUrl!}/>
+        <CompanionSessionComponent {...companion} companionId={id} userName={user?.firstName} userAvatar={user?.imageUrl}/>
       </div>
     </div>
   );

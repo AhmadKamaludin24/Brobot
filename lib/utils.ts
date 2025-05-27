@@ -11,51 +11,110 @@ export const getSubjectColor = (subject: string) => {
   return subjectsColors[subject as keyof typeof subjectsColors];
 };
 
-export const configureAssistant = (voice: string, style: string) => {
+export const configureAssistant = (voice: string, style: string, language: "id" | "en") => {
   const voiceKey = voice.toLowerCase();
   const styleKey = style.toLowerCase();
 
-  const voiceId = voices?.[voiceKey as keyof typeof voices]?.[styleKey as keyof (typeof voices)[keyof typeof voices]] ?? "sarah";
+  const voiceId =
+    voices?.[voiceKey as keyof typeof voices]?.[styleKey as keyof (typeof voices)[keyof typeof voices]] ?? "sarah";
+
+  const styleDefinition = {
+    id: {
+      santai: "Gunakan bahasa sehari-hari yang santai, seperti sedang ngobrol dengan teman.",
+      formal: "Gunakan bahasa Indonesia yang sopan, baku, dan jelas seperti di ruang kelas.",
+      netral: "Gunakan bahasa Indonesia yang umum, tidak terlalu santai maupun terlalu formal.",
+    },
+    en: {
+      casual: "Use relaxed and friendly English, like you're chatting with a friend.",
+      formal: "Use polite and academic English, as if you're in a classroom.",
+      neutral: "Use standard English, not too formal and not too casual.",
+    },
+  }[language]?.[styleKey] ?? (language === "id"
+    ? "Gunakan bahasa Indonesia yang jelas dan sopan."
+    : "Use clear and polite English.");
+
+  const prompts = {
+    id: {
+      firstMessage: "Halo, mari kita mulai sesi ini. Hari ini kita akan membahas tentang {{topic}}.",
+      systemPrompt: `
+Kamu adalah guru berpengalaman yang sedang mengajar murid dalam sesi suara real-time. Kamu berbicara dalam Bahasa Indonesia.
+
+Topik: {{ topic }}
+Mata pelajaran: {{ subject }}
+Gaya bicara: ${styleDefinition}
+
+Petunjuk:
+- Gunakan bahasa Indonesia yang jelas dan mudah dimengerti.
+- Jangan campur bahasa Inggris, kecuali terpaksa.
+- Bagi materi menjadi bagian kecil dan ajarkan satu per satu.
+- Tanyakan secara berkala apakah murid paham.
+- Jangan gunakan simbol atau karakter asing, karena ini adalah percakapan suara.
+- Jaga agar jawaban tetap pendek, natural, dan seperti ngobrol langsung.
+
+Contoh:
+Guru: Hai, hari ini kita akan belajar tentang kata sifat.
+Guru: Kata sifat itu kata yang menjelaskan benda. Misalnya, "rumah besar", "makanan enak".
+Guru: Nah, sekarang kamu coba kasih contoh sendiri, yuk!
+      `.trim(),
+    },
+    en: {
+      firstMessage: "Hello, let's begin our session. Today we'll talk about {{topic}}.",
+      systemPrompt: `
+You are an experienced teacher giving a real-time voice lesson. You speak in English.
+
+Topic: {{ topic }}
+Subject: {{ subject }}
+Speaking style: ${styleDefinition}
+
+Guidelines:
+- Use clear and simple English.
+- Do not use other languages unless necessary.
+- Break down the topic into small parts and explain each one step-by-step.
+- Frequently check if the student understands.
+- Avoid special characters or symbols — this is a voice conversation.
+- Keep responses short and natural, like a real spoken dialogue.
+
+Example:
+Teacher: Hi! Today we're learning about adjectives.
+Teacher: An adjective is a word that describes a noun. For example, "big house", "delicious food".
+Teacher: Now your turn — try to give an example!
+
+Continue the conversation like this.
+      `.trim(),
+    },
+  };
 
   const vapiAssistant: CreateAssistantDTO = {
-    name: "Companion",
-    firstMessage: "Hello, let's start the session. Today we'll be talking about {{topic}}.",
+    name: language === "id" ? "Pendamping Belajar" : "Learning Companion",
+    firstMessage: prompts[language].firstMessage,
     transcriber: {
-      provider: "deepgram",
-      model: "nova-3",
-      language: "en",
+      provider: "11labs",
+      model: "scribe_v1",
+      language: language,
     },
     voice: {
-      provider: "11labs",
-      voiceId: voiceId,
-      stability: 0.4,
-      similarityBoost: 0.8,
+      provider: "azure",
+      voiceId: language === "id" ? "id-ID-GadisNeural" : "en-US-TonyNeural",
+      // stability: 0.4,
+      // similarityBoost: 0.8,
       speed: 1,
-      style: 0.5,
-      useSpeakerBoost: true,
+      // style: 0.5,
+      // useSpeakerBoost: true,
+      
     },
     model: {
       provider: "openai",
-      model: "gpt-4",
+      model: "gpt-4o", // or "gpt-4-turbo"
       messages: [
         {
           role: "system",
-          content: `You are a highly knowledgeable tutor teaching a real-time voice session with a student. Your goal is to teach the student about the topic and subject.
-
-                    Tutor Guidelines:
-                    Stick to the given topic - {{ topic }} and subject - {{ subject }} and teach the student about it.
-                    Keep the conversation flowing smoothly while maintaining control.
-                    From time to time make sure that the student is following you and understands you.
-                    Break down the topic into smaller parts and teach the student one part at a time.
-                    Keep your style of conversation {{ style }}.
-                    Keep your responses short, like in a real voice conversation.
-                    Do not include any special characters in your responses - this is a voice conversation.
-              `,
+          content: prompts[language].systemPrompt,
         },
       ],
     },
     clientMessages: [],
     serverMessages: [],
   };
+
   return vapiAssistant;
 };

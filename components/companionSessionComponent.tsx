@@ -5,6 +5,8 @@ import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import React, { useEffect, useRef, useState } from "react";
 import soundwaves from "@/lib/constants/soundwaves.json";
 import { Button } from "./ui/button";
+import SplitText from "./blocks/TextAnimations/SplitText/SplitText";
+import BlurText from "./blocks/TextAnimations/BlurText/BlurText";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -103,7 +105,7 @@ const CompanionSessionComponent = ({
 
     }
     //ts-expect-error
-    vapi.start(configureAssistant("Male", "Casual"), asisstantOverrides)
+    vapi.start(configureAssistant("kina", "santai", "id"), asisstantOverrides)
   }
 
     const handleDisconect = async () => {
@@ -112,7 +114,7 @@ const CompanionSessionComponent = ({
     };
   return (
     <div className="pt-5 flex flex-col justify-between items-center mx-5">
-      <div className=" w-full flex flex-col gap-6 justify-center items-center h-[28rem] rounded-2xl border-2 border-black">
+      <div className=" w-full flex flex-col gap-6 justify-center items-center h-[28rem] max-sm:h-[20rem] rounded-2xl border-2 border-black">
         <div className="w-36 h-36 bg-amber-500 rounded-full flex justify-center items-center relative">
           <div
             className={cn(
@@ -134,18 +136,21 @@ const CompanionSessionComponent = ({
                 <Lottie lottieRef={lottieRef} animationData={soundwaves} autoplay={true} className="w-[300px]"/>
             </div>
         </div>
-        {/* <section className="w-full h-12 overflow-hidden">
-            <div className="transcript-messages no-scollbar">
+        <section className="max-w-[80%] overflow-hidden">
+            <div className="relative flex flex-col gap-2 p-5 max-h-40 max-sm:max-h-[5rem] text-wrap flex-grow overflow-y-auto no-scrollbar">
                  {messages.map((message, index) => {
                         if(message.role === 'assistant') {
                             return (
-                                <p key={index} className="max-sm:text-sm">
+                              //  
+                               
+                                <div key={index} className="max-sm:text-sm relative">
                                     {
                                         name
                                             .split(' ')[0]
                                             .replace('/[.,]/g, ','')
-                                    }: {message.content}
-                                </p>
+                                    }: <p>{message.content}</p>
+                             
+                                </div>
                             )
                         } else {
                            return <p key={index} className="text-primary max-sm:text-sm">
@@ -153,13 +158,13 @@ const CompanionSessionComponent = ({
                             </p>
                         }
                     })}
-                <div className="transcript-fade"/>
+               
             </div>
-        </section> */}
+        </section>
       </div>
       
       
-        <Button onClick={callStatus === CallStatus.ACTIVE ? handleDisconect : handleCall} className={cn("mt-7 rounded-lg py-2 ", callStatus === CallStatus.CONNECTING && "animate-pulse")}>{callStatus === CallStatus.ACTIVE ? "End session" : "Start Session"}</Button>
+        <Button onClick={callStatus === CallStatus.ACTIVE ? handleDisconect : handleCall} className={cn("mt-7 rounded-lg py-2 bg-red-500 ", callStatus === CallStatus.CONNECTING && "animate-pulse", callStatus === CallStatus.ACTIVE ? "bg-red-500" : "bg-black")}>{callStatus === CallStatus.ACTIVE ? "End session" : "Start Session"}</Button>
       
     </div>
   );
