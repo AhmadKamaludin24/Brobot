@@ -1,4 +1,5 @@
 "use server";
+import { auth } from "@clerk/nextjs/server";
 import { createSupabaseClient } from "../supabase"
 
 interface getAllCompanions{
@@ -33,6 +34,8 @@ export const getAllCompanions = async ({limit= 10, page= 1 , topic, subject} : g
 export const getCompanionById = async (id: string) => {
     const supabase = createSupabaseClient()
 
+  
+    
     const { data: companion, error } = await supabase
         .from("companions")
         .select()
@@ -44,4 +47,77 @@ export const getCompanionById = async (id: string) => {
     }
 
     return companion || null;
+
 }
+
+export const initUserCallUsage = async () => {
+  const supabase = createSupabaseClient();
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not authenticated");
+
+  // Cek apakah data sudah ada
+  const { data: existing, error: fetchError } = await supabase
+    .from("user_call_usage")
+    .select("user_id")
+    .eq("user_id", userId)
+    .single();
+
+  if (fetchError && fetchError.code !== "PGRST116") {
+    throw new Error("Gagal mengecek user: " + fetchError.message);
+  }
+
+  if (existing) {
+    console.log("User sudah punya usage data, tidak perlu insert.");
+    return existing;
+  }
+
+  // Insert hanya kalau belum ada
+  const { data, error } = await supabase
+    .from("user_call_usage")
+    .insert([{ user_id: userId, remaining_seconds: 25 }]);
+
+  if (error) throw new Error("Gagal membuat usage awal: " + error.message);
+  return data;
+};
+
+
+
+export const getUserCallUsage = async (): Promise<number> => {
+  const supabase = createSupabaseClient();
+
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not authenticated");
+
+  const { data, error } = await supabase
+    .from("user_call_usage")
+    .select("remaining_seconds")
+    .eq("user_id", userId)
+    .single();
+
+  if (error || !data) {
+    throw new Error(`Error fetching user call usage: ${error?.message}`);
+  }
+
+  return data.remaining_seconds ?? 0;
+};
+
+
+export const updateUserCallUsage = async (seconds: number) => {
+    const supabase = createSupabaseClient();
+
+    const { userId } = await auth();
+    if (!userId) throw new Error("User not authenticated");
+
+    const { data, error } = await supabase
+        .from("user_call_usage")
+        .update({ remaining_seconds: seconds })
+        .eq("user_id", userId)
+        .select()
+        .single();
+
+    if (error) {
+        throw new Error(`Error updating user call usage: ${error.message}`);
+    }
+
+    return data.total_used_seconds || 0;
+};

@@ -11,7 +11,7 @@ export const getSubjectColor = (subject: string) => {
   return subjectsColors[subject as keyof typeof subjectsColors];
 };
 
-export const configureAssistant = (voice: string, style: string, language: "id" | "en") => {
+export const configureAssistant = (voice: string, style: string, language: string) => {
   const voiceKey = voice.toLowerCase();
   const styleKey = style.toLowerCase();
 
@@ -20,7 +20,7 @@ export const configureAssistant = (voice: string, style: string, language: "id" 
 
   const styleDefinition = {
     id: {
-      santai: "Gunakan bahasa sehari-hari yang santai, seperti sedang ngobrol dengan teman.",
+      santai: "Gunakan bahasa anak gen-z indonesia yang asik, seperti sedang ngobrol dengan teman.",
       formal: "Gunakan bahasa Indonesia yang sopan, baku, dan jelas seperti di ruang kelas.",
       netral: "Gunakan bahasa Indonesia yang umum, tidak terlalu santai maupun terlalu formal.",
     },
@@ -35,9 +35,9 @@ export const configureAssistant = (voice: string, style: string, language: "id" 
 
   const prompts = {
     id: {
-      firstMessage: "Halo, mari kita mulai sesi ini. Hari ini kita akan membahas tentang {{topic}}.",
+      firstMessage: "Halo {{userName}}, mari kita mulai sesi ini. Hari ini kita akan membahas tentang {{topic}}.",
       systemPrompt: `
-Kamu adalah guru berpengalaman yang sedang mengajar murid dalam sesi suara real-time. Kamu berbicara dalam Bahasa Indonesia.
+Kamu adalah Sinta guru yang berpengalaman yang sedang mengajar murid {{userName}} dalam sesi suara real-time. Kamu berbicara dalam Bahasa Indonesia.
 
 Topik: {{ topic }}
 Mata pelajaran: {{ subject }}

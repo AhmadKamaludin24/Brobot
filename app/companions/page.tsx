@@ -23,7 +23,7 @@ const Page = async ({ searchParams }: SearchParams) => {
           <SearchInput />
         </div>
 
-        <div className="flex justify-between items-center flex-wrap max-sm:flex-col gap-4">
+        <div className="flex justify-start items-center flex-wrap max-sm:flex-col gap-4">
           {data.map((companion) => (
             <CompanionCard
               key={companion.id}

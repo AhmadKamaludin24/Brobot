@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link href="/" className="logo">
-        <h1 className="text-xl font-bold">Brobot</h1>
+        <h1 className="text-xl max-sm:text-lg font-bold">Brobot</h1>
       </Link>
 
     <Navitems/>

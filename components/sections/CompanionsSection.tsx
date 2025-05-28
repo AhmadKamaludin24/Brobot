@@ -11,18 +11,16 @@ const CompanionsSection = ({ searchInput }: CompanionCardProps) => {
   return (
     <div className="container flex flex-col mx-auto px-5 py-5 gap-4">
       <div className="flex justify-between items-center">
-        {searchInput ? (
-          <Input placeholder="search companion" className="w-1/4" />
-        ) : (
-          <h1 className="text-2xl font-bold pb-5">Popular companions</h1>
-        )}
+        <h1 className="text-2xl max-sm:text-xl font-bold pb-5">
+          Popular companions
+        </h1>
 
-        <Link href="/companions" className=" hover:underline">
+        <Link href="/companions" className=" hover:underline text-center">
           View all
         </Link>
       </div>
 
-      <div className="flex justify-between items-center flex-wrap max-sm:flex-col gap-4">
+      <div className="flex justify-start items-center flex-wrap max-md:flex-col gap-4 ">
         <CompanionCard
           id="123"
           name="Neura The Brainly Exploler"

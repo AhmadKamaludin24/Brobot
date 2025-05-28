@@ -16,7 +16,7 @@ const navItems = [
 const Navitems = () => {
     const pathName = usePathname()
   return (
-    <nav className='flex items-center gap-4'>
+    <nav className='flex items-center gap-4 max-sm:gap-2'>
         {navItems.map ((({name, path}) => (
             <Link
                 key={name}
@@ -25,11 +25,11 @@ const Navitems = () => {
                 {name}
                 </Link>
         )))}
-        <SignedIn>
+        <SignedIn >
           <UserButton />
         </SignedIn>
         <SignedOut>
-          <SignInButton>
+          <SignInButton forceRedirectUrl={"/redirecting"}>
             <Button className='bg-black text-white hover:bg-gray-800'>Sign In</Button>
           </SignInButton>
         

@@ -5,8 +5,8 @@ import ClickSpark from "../blocks/Animations/ClickSpark/ClickSpark";
 const HomeSection = () => {
   return (
     <div className="container mx-auto flex justify-center items-center h-96 gap-5 flex-col px-4 py-8 ">
-      <h1 className="text-7xl  font-semibold">Learn Smarter. Talk Freely.</h1>
-      <h1 className="text-2xl lg:text-center">
+      <h1 className="text-7xl max-sm:text-4xl font-semibold">Learn Smarter. Talk Freely.</h1>
+      <h1 className="text-2xl max-sm:text-xl lg:text-center">
         voice-based AI powered by{" "}
         <Link className="font-semibold" href={"https://vapi.ai/"}>
           Vapi
@@ -16,7 +16,7 @@ const HomeSection = () => {
       </h1>
     
       <Link href="/companions">
-        <button className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+        <button className="bg-black text-white px-6 py-3 max-sm:px-3 rounded-lg hover:bg-gray-800 transition-colors">
           Explore Companions
         </button>
       </Link>
