@@ -9,9 +9,9 @@ interface CompanionCardProps {
 
 const CompanionsSection = ({ searchInput }: CompanionCardProps) => {
   return (
-    <div className="container flex flex-col mx-auto px-5 py-5 gap-4">
+    <div className="max-w-[90rem] flex flex-col mx-auto px-5 py-3 gap-2">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl max-sm:text-xl font-bold pb-5">
+        <h1 className="text-2xl max-sm:text-xl font-bold pb-3">
           Popular companions
         </h1>
 
@@ -20,7 +20,7 @@ const CompanionsSection = ({ searchInput }: CompanionCardProps) => {
         </Link>
       </div>
 
-      <div className="flex justify-start items-center flex-wrap max-md:flex-col gap-4 ">
+      <div className="flex justify-start items-center flex-wrap max-md:flex-col gap-2 ">
         <CompanionCard
           id="123"
           name="Neura The Brainly Exploler"

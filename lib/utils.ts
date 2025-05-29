@@ -11,12 +11,12 @@ export const getSubjectColor = (subject: string) => {
   return subjectsColors[subject as keyof typeof subjectsColors];
 };
 
-export const configureAssistant = (voice: string, style: string, language: string) => {
-  const voiceKey = voice.toLowerCase();
-  const styleKey = style.toLowerCase();
+export const configureAssistant = ( language: string) => {
+  // const voiceKey = voice.toLowerCase();
+  // const styleKey = style.toLowerCase();
 
-  const voiceId =
-    voices?.[voiceKey as keyof typeof voices]?.[styleKey as keyof (typeof voices)[keyof typeof voices]] ?? "sarah";
+  // const voiceId =
+  //   voices?.[voiceKey as keyof typeof voices]?.[styleKey as keyof (typeof voices)[keyof typeof voices]] ?? "sarah";
 
   const styleDefinition = {
     id: {
@@ -29,15 +29,13 @@ export const configureAssistant = (voice: string, style: string, language: strin
       formal: "Use polite and academic English, as if you're in a classroom.",
       neutral: "Use standard English, not too formal and not too casual.",
     },
-  }[language]?.[styleKey] ?? (language === "id"
-    ? "Gunakan bahasa Indonesia yang jelas dan sopan."
-    : "Use clear and polite English.");
+  }[language]
 
   const prompts = {
     id: {
       firstMessage: "Halo {{userName}}, mari kita mulai sesi ini. Hari ini kita akan membahas tentang {{topic}}.",
       systemPrompt: `
-Kamu adalah Sinta guru yang berpengalaman yang sedang mengajar murid {{userName}} dalam sesi suara real-time. Kamu berbicara dalam Bahasa Indonesia.
+Kamu adalah {{name}} guru yang berpengalaman yang sedang mengajar murid {{userName}} dalam sesi suara real-time. Kamu berbicara dalam Bahasa Indonesia.
 
 Topik: {{ topic }}
 Mata pelajaran: {{ subject }}
@@ -58,9 +56,9 @@ Guru: Nah, sekarang kamu coba kasih contoh sendiri, yuk!
       `.trim(),
     },
     en: {
-      firstMessage: "Hello, let's begin our session. Today we'll talk about {{topic}}.",
+      firstMessage: "Hello {{userName}}, let's begin our session. Today we'll talk about {{topic}}.",
       systemPrompt: `
-You are an experienced teacher giving a real-time voice lesson. You speak in English.
+You are {{name}} an experienced teacher giving a real-time voice lesson. You speak in English.
 
 Topic: {{ topic }}
 Subject: {{ subject }}
@@ -104,7 +102,7 @@ Continue the conversation like this.
     },
     model: {
       provider: "openai",
-      model: "gpt-4o", // or "gpt-4-turbo"
+      model: "gpt-3.5-turbo", // or "gpt-4-turbo"
       messages: [
         {
           role: "system",

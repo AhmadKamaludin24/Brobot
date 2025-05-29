@@ -22,7 +22,7 @@ const CompanionCard = ({
   return (
     <div
       style={{ backgroundColor: color }}
-      className={`  relative  rounded-xl p-4 flex flex-col justify-between flex-shrink-0 w-[32%] max-md:w-full h-64`}>
+      className={`  relative  rounded-xl p-4 flex flex-col justify-between flex-shrink-0 w-[32.6%] max-md:w-full h-64`}>
       <div className="w-full flex justify-between items-center">
         <h1 className="text-[1rem] text-ellipsis font-semibold text-white bg-black p-1 px-2 rounded-full">
           {subject}
@@ -45,9 +45,9 @@ const CompanionCard = ({
         
       </div>
       <h1 className="pt-4 text-xl text-ellipsis">{name}</h1>
-      <h1 className="text-2xl font-semibold text-clip pb-12 max-sm:pb-7 flex flex-grow-0">{topic}</h1>
+      <h1 className="text-2xl font-semibold pb-12 max-sm:pb-7 w-full max-w-xs line-clamp-3 leading-tight">{topic}</h1>
       <Link href={`/companions/${id}`}>
-         <Button className="w-full">Start lessons</Button>
+         <Button className="w-full">Start Conversation</Button>
       </Link>
      
      

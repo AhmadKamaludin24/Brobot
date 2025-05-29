@@ -179,13 +179,14 @@ const CompanionSessionComponent = ({
         topic,
         style,
         userName,
+        name
       },
       clientMessages: ["transcript"],
       serverMessages: [],
     };
     //ts-expect-error
 
-    vapi.start(configureAssistant("kina", "santai", language), asisstantOverrides);
+    vapi.start(configureAssistant(language), asisstantOverrides);
   };
   const handleDisconect = async () => {
     setCallStatus(CallStatus.FINISHED);
@@ -221,8 +222,8 @@ const CompanionSessionComponent = ({
   };
 
   return (
-    <div className="pt-5 flex flex-col justify-between items-center mx-5">
-      <div className=" w-full relative flex flex-col gap-6 justify-center items-center h-[28rem] max-sm:h-[20rem] rounded-2xl border-2 border-black">
+    <div className="pt-5 min-w-7xl flex flex-col justify-between items-center mx-5">
+      <div className=" w-full relative flex flex-col gap-4 justify-center items-center h-[28rem] max-sm:h-[20rem] rounded-2xl border-2 border-gray-400">
         {remainingTime !== null && (
           <p className="absolute top-3 right-4">
             Time left: {Math.floor(remainingTime / 60)}:

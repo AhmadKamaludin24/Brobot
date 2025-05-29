@@ -7,12 +7,15 @@ interface getAllCompanions{
     page?: number;
     subject?: string | string[];
     topic?: string | string[];
+    language?: string | string[] ;
 }
 
-export const getAllCompanions = async ({limit= 10, page= 1 , topic, subject} : getAllCompanions) => {
+export const getAllCompanions = async ({limit= 10, page= 1 , topic, subject, language} : getAllCompanions) => {
     const supabase = createSupabaseClient()
 
     let query = supabase.from("companions").select()
+
+    console.log("Companion Filters:",  language );
 
     if(subject && topic){
         query = query.ilike("subject", `%${subject}%`).or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`)
@@ -20,13 +23,18 @@ export const getAllCompanions = async ({limit= 10, page= 1 , topic, subject} : g
         query = query.ilike("subject", `%${subject}%`)
     } else if(topic){
         query = query.or(`topic.ilike.%${topic}%,name.ilike.%${topic}%`)
-    }
+    } 
+
+    
+  if (language && language !== "All") {
+    query = query.ilike("language", `%${language}%`);
+  }
 
     query = query.range((page - 1) * limit, page * limit - 1)
 
     const { data: companions, error } = await query
     if (error){
-        throw new Error(`Error fetching companions: ${error.message}`);
+        return []
     }
     return companions || [];
 }
@@ -43,7 +51,7 @@ export const getCompanionById = async (id: string) => {
         .single();
 
     if (error) {
-        throw new Error(`Error fetching companion: ${error.message}`);
+        return[]
     }
 
     return companion || null;

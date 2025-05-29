@@ -17,14 +17,22 @@ const Page = async ({ params }: companionSession) => {
   if (!companion) {
     redirect(`/companions`);
   }
+  if(companion.length === 0){
+    return (
+      <div className="flex items-center justify-center w-full h-screen">
+        <h1 className="text-2xl font-semibold">Companion not found</h1>
+      </div>
+    );
+  }
   if (!user) {
     redirect(`/sign-in`);
   }
 
   return (
-    <div className="flex flex-col w-full relative overflow-hidden">
-      <div className="mx-auto container min-h-svh">
-        <article className="p-5 mt-24 flex  flex-col items-start border-2 rounded-lg border-black mx-5">
+    <div className="flex flex-col w-full min-h-svh  relative overflow-hidden">
+      <div className="mx-auto w-[90rem] max-sm:w-full ">
+        
+        <article className="p-5 mt-24 flex flex-col items-start border-2 rounded-lg border-gray-400 mx-5">
           <h1 className="text-2xl font-bold">{companion.name}</h1>
           <h2>{companion.topic}</h2>
         </article>
