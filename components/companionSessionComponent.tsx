@@ -5,13 +5,11 @@ import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import React, { useEffect, useRef, useState } from "react";
 import soundwaves from "@/lib/constants/soundwaves.json";
 import { Button } from "./ui/button";
-import SplitText from "./blocks/TextAnimations/SplitText/SplitText";
-import BlurText from "./blocks/TextAnimations/BlurText/BlurText";
 import {
   getUserCallUsage,
   updateUserCallUsage,
 } from "@/lib/actions/companion.action";
-import { start } from "repl";
+
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -32,9 +30,9 @@ interface CompanionComponentProps {
   name: string;
   userName: string;
   userImage: string;
-  voice: string;
+  voice: "male" | "female";
   style: string;
-  language: string;
+  language: "id" | "en";
 }
 
 const CompanionSessionComponent = ({
@@ -177,7 +175,6 @@ const CompanionSessionComponent = ({
       variableValues: {
         subject,
         topic,
-        style,
         userName,
         name
       },
@@ -186,7 +183,7 @@ const CompanionSessionComponent = ({
     };
     //ts-expect-error
 
-    vapi.start(configureAssistant(language), asisstantOverrides);
+    vapi.start(configureAssistant(language, voice), asisstantOverrides);
   };
   const handleDisconect = async () => {
     setCallStatus(CallStatus.FINISHED);

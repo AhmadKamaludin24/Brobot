@@ -9,17 +9,24 @@ export const subjects = [
 
 export const subjectsColors = {
   maths: "#FFDA6E",
-  language: "#BDE7FF",
+  language: "#C8FFDF",
   Coding: "#8DD8FF",
-  history: "#FFECC8",
+  history: "#F2C078",
   economics: "#C8FFDF",
   sejarah: "#F2C078",
 };
 
 export const voices = {
-  male: { casual: "2BJW5coyhAzSr8STdHbE", formal: "c6SfcYrb2t09NHXiT80T" },
-  female: { casual: "ZIlrSGI4jZqobxRKprJz", formal: "sarah" },
+  id: {
+    male: "xChNffR8mWkGIrdSUYsg",
+    female: "iWydkXKoiVtvdn4vLKp9",
+  },
+  en: {
+    male: "eiHxAtBKGxuWeZ3KJ2Fg",
+    female: "5ZX8paQ1eat4rPpwc2Iy"
+  }
 };
+
 
 export const recentSessions = [
   {

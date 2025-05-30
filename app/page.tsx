@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="pt-24 text-black w-full min-h-screen relative overflow-hidden">
       <HomeSection/>
-      <CompanionsSection searchInput={false}/>
+      <CompanionsSection/>
       
     </main>
   );

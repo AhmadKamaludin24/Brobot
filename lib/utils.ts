@@ -11,12 +11,15 @@ export const getSubjectColor = (subject: string) => {
   return subjectsColors[subject as keyof typeof subjectsColors];
 };
 
-export const configureAssistant = ( language: string) => {
-  // const voiceKey = voice.toLowerCase();
+export const configureAssistant = (  language: keyof typeof voices, voice: "male" | "female") => {
+  const voiceKey = voice.toLowerCase();
   // const styleKey = style.toLowerCase();
 
-  // const voiceId =
-  //   voices?.[voiceKey as keyof typeof voices]?.[styleKey as keyof (typeof voices)[keyof typeof voices]] ?? "sarah";
+  const voiceId =
+   voices?.[language]?.[voice] ?? "sarah"
+
+   console.log("voiceId", voiceId);
+
 
   const styleDefinition = {
     id: {
@@ -91,18 +94,19 @@ Continue the conversation like this.
       language: language,
     },
     voice: {
-      provider: "azure",
-      voiceId: language === "id" ? "id-ID-GadisNeural" : "en-US-TonyNeural",
-      // stability: 0.4,
-      // similarityBoost: 0.8,
+      provider: "11labs",
+      model: "eleven_multilingual_v2",
+      voiceId: voiceId,
+      stability: 0.4,
+      similarityBoost: 0.8,
       speed: 1,
-      // style: 0.5,
-      // useSpeakerBoost: true,
+      style: 0.5,
+      useSpeakerBoost: true,
       
     },
     model: {
       provider: "openai",
-      model: "gpt-3.5-turbo", // or "gpt-4-turbo"
+      model: "gpt-4o", // or "gpt-4-turbo"
       messages: [
         {
           role: "system",

@@ -82,7 +82,7 @@ export const initUserCallUsage = async () => {
   // Insert hanya kalau belum ada
   const { data, error } = await supabase
     .from("user_call_usage")
-    .insert([{ user_id: userId, remaining_seconds: 25 }]);
+    .insert([{ user_id: userId, remaining_seconds: 200 }]);
 
   if (error) throw new Error("Gagal membuat usage awal: " + error.message);
   return data;

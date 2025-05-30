@@ -1,13 +1,13 @@
 import React from "react";
 import CompanionCard from "../ui/CompanionCard";
 import Link from "next/link";
-import { Input } from "../ui/input";
+import { getAllCompanions } from "@/lib/actions/companion.action";
+import { getSubjectColor } from "@/lib/utils";
 
-interface CompanionCardProps {
-  searchInput: boolean;
-}
 
-const CompanionsSection = ({ searchInput }: CompanionCardProps) => {
+
+const CompanionsSection = async() => {
+  const companions = await getAllCompanions({ limit: 3, page: 1 });
   return (
     <div className="max-w-[90rem] flex flex-col mx-auto px-5 py-3 gap-2">
       <div className="flex justify-between items-center">
@@ -21,30 +21,20 @@ const CompanionsSection = ({ searchInput }: CompanionCardProps) => {
       </div>
 
       <div className="flex justify-start items-center flex-wrap max-md:flex-col gap-2 ">
-        <CompanionCard
-          id="123"
-          name="Neura The Brainly Exploler"
-          topic="Neural Network Of The Brain"
-          subject="science"
-          duration={45}
-          color="#ffda6e"
-        />
-        <CompanionCard
-          id="coding-01"
-          name="Codey the Dev Bot"
-          topic="Intro to HTML and Web Basics"
-          subject="Computer Science"
-          duration={60}
-          color="#A0D2EB"
-        />
-        <CompanionCard
-          id="math-01"
-          name="Algeo the Math Wizard"
-          topic="Mastering Algebraic Expressions"
-          subject="Mathematics"
-          duration={40}
-          color="#FFD6E0"
-        />
+        {companions.map((companion) => (
+          <CompanionCard
+            key={companion.id}
+            id={companion.id}
+            name={companion.name}
+            topic={companion.topic}
+            subject={companion.subject}
+            duration={companion.duration}
+            color={getSubjectColor(companion.subject)} // You can customize the color based on companion data
+          />
+        ))}
+
+   
+
       </div>
     </div>
   );

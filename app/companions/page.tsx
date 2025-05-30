@@ -1,5 +1,4 @@
 import React from "react";
-import { Input } from "@/components/ui/input";
 import CompanionCard from "@/components/ui/CompanionCard";
 import { getAllCompanions } from "@/lib/actions/companion.action";
 import SearchInput from "@/components/ui/SearchInput";
@@ -16,7 +15,7 @@ const Page = async ({ searchParams }: SearchParams) => {
   const topic = filters.topic || "";
   const language = filters.language || "";
   const data = await getAllCompanions({ subject, topic, language, });
-  console.log("Companions Data:", data);
+
 
   return (
     <main className="pt-24 text-black w-full min-h-screen relative overflow-hidden">
