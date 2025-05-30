@@ -9,7 +9,7 @@ import { getSubjectColor } from "@/lib/utils";
 const CompanionsSection = async() => {
   const companions = await getAllCompanions({ limit: 3, page: 1 });
   return (
-    <div className="max-w-[90rem] flex flex-col mx-auto px-5 py-3 gap-2">
+    <div className="container flex flex-col mx-auto px-5 py-3 gap-2">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl max-sm:text-xl font-bold pb-3">
           Popular companions

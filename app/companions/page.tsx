@@ -19,7 +19,7 @@ const Page = async ({ searchParams }: SearchParams) => {
 
   return (
     <main className="pt-24 text-black w-full min-h-screen relative overflow-hidden">
-      <div className="max-w-[90rem] flex flex-col mx-auto px-5 py-5 gap-4">
+      <div className="container flex flex-col mx-auto px-5 py-5 gap-4">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold ">Companion Liblary</h1>
           <div className="flex justify-between max-sm:flex-col items-center gap-2">

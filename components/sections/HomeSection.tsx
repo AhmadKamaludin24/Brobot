@@ -5,7 +5,7 @@ import SplitText from "../blocks/TextAnimations/SplitText/SplitText";
 
 const HomeSection = () => {
   return (
-    <div className="max-w-[90rem] mx-auto flex justify-center items-center gap-5 max-sm:gap-2 flex-col px-4 py-5 ">
+    <div className="container min-h-[30rem] mx-auto flex justify-center items-center gap-5 max-sm:gap-2 flex-col px-4 py-5 ">
        <SplitText text={`"Say It. Hear It. Learn It."`}/>
       <h1 className="text-7xl max-sm:text-4xl lg:text-center  font-semibold font-inter ">Learn Smarter. Talk Freely.</h1>
       <h2 className="text-2xl max-sm:text-[13px] lg:text-center w-full max-w-[45rem] leading-tight line-clamp-3 font-inter">
