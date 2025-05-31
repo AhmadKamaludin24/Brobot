@@ -5,10 +5,10 @@ import SplitText from "../blocks/TextAnimations/SplitText/SplitText";
 
 const HomeSection = () => {
   return (
-    <div className="container min-h-[30rem] mx-auto flex justify-center items-center gap-5 max-sm:gap-2 flex-col px-4 py-5 ">
+    <div className="container bg-gray-50 rounded-xl min-h-[30rem] max-sm:min-h-[20rem] mx-auto flex justify-center items-center gap-5 max-sm:gap-2 flex-col px-4 py-5 ">
        <SplitText text={`"Say It. Hear It. Learn It."`}/>
-      <h1 className="text-7xl max-sm:text-4xl lg:text-center  font-semibold font-inter ">Learn Smarter. Talk Freely.</h1>
-      <h2 className="text-2xl max-sm:text-[13px] lg:text-center w-full max-w-[45rem] leading-tight line-clamp-3 font-inter">
+      <h1 className="text-7xl max-sm:text-4xl text-center  font-semibold font-inter ">Learn Smarter. Talk Freely.</h1>
+      <h2 className="text-2xl max-sm:text-[13px] text-center w-full max-w-[45rem] leading-tight line-clamp-3 font-inter">
         voice-based AI powered by{" "}
         <Link className="font-semibold" href={"https://vapi.ai/"}>
           Vapi
@@ -17,7 +17,7 @@ const HomeSection = () => {
         natural conversation.
       </h2>
     
-      <div className="flex justify-start items-center max-sm:w-full w-1/3 gap-4">
+      <div className="flex justify-start items-center max-sm:w-[80%] w-1/3 gap-4">
       
       
       <Link href={"/companions"} className="w-full">
