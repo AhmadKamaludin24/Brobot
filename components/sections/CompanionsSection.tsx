@@ -20,7 +20,7 @@ const CompanionsSection = async() => {
         </Link>
       </div>
 
-      <div className="flex justify-start items-center flex-wrap max-md:flex-col gap-2 ">
+      <div className="flex justify-between items-center flex-wrap max-md:flex-col gap-2 ">
         {companions.map((companion) => (
           <CompanionCard
             key={companion.id}

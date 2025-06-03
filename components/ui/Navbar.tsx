@@ -27,7 +27,7 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="lg:hidden absolute top-0 right-0 w-1/2 py-12 h-screen bg-white flex flex-col justify-between">
+        <div className="lg:hidden absolute top-0 right-0 w-[60%] py-10 h-svh bg-white flex flex-col justify-between">
           <div
             className="flex flex-col justify-start items-end gap-4 px-4"
             onClick={() => setIsOpen(false)}>
