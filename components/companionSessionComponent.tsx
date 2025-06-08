@@ -10,7 +10,6 @@ import {
   updateUserCallUsage,
 } from "@/lib/actions/companion.action";
 
-
 enum CallStatus {
   INACTIVE = "INACTIVE",
   ACTIVE = "ACTIVE",
@@ -176,7 +175,7 @@ const CompanionSessionComponent = ({
         subject,
         topic,
         userName,
-        name
+        name,
       },
       clientMessages: ["transcript"],
       serverMessages: [],
@@ -218,9 +217,16 @@ const CompanionSessionComponent = ({
     setRemainingTime(null);
   };
 
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }, [messages]);
+
   return (
-    <div className="pt-5 min-w-7xl flex flex-col justify-between items-center mx-5">
-      <div className=" w-full relative flex flex-col gap-4 justify-center items-center h-[28rem] max-sm:h-[20rem] rounded-2xl border-2 border-gray-400">
+    <div className="pt-5 min-w-7xl flex flex-col justify-between items-center mx-5 py-5">
+      <div className=" w-full relative flex flex-col p-4 gap-4 justify-center items-center min-h-96 rounded-2xl border-2 border-gray-400">
         {remainingTime !== null && (
           <p className="absolute top-3 right-4">
             Time left: {Math.floor(remainingTime / 60)}:
@@ -235,15 +241,16 @@ const CompanionSessionComponent = ({
                 callStatus === CallStatus.INACTIVE
                 ? "opacity-100"
                 : "opacity-0",
-              callStatus === CallStatus.CONNECTING &&
-                "opacoty-100 animate-pulse"
+              callStatus === CallStatus.CONNECTING && "opacity-100 animate-ping"
             )}>
             <div className=" w-fit h-fit"></div>
           </div>
           <div
             className={cn(
               "absolute transition-opacity duration-1000",
-              callStatus === CallStatus.ACTIVE ? "opacity-100" : "opacity-0"
+              callStatus === CallStatus.ACTIVE ? "opacity-100" : "opacity-0",
+              callStatus === CallStatus.CONNECTING &&
+                "opacity-100 animate-pulse"
             )}>
             <Lottie
               lottieRef={lottieRef}
@@ -253,26 +260,38 @@ const CompanionSessionComponent = ({
             />
           </div>
         </div>
-        <section className="max-w-[80%] overflow-hidden">
-          <div className="relative flex flex-col gap-2 p-5 max-h-40 max-sm:max-h-[5rem] text-wrap flex-grow overflow-y-auto no-scrollbar">
+        <section className="max-w-[100%] max-sm:max-w-[100%] p-5 overflow-hidden rounded-md">
+          <div className="relative flex flex-col-reverse gap-2 p-5 max-h-[400px] max-sm:max-h-[200px] overflow-y-auto bg-gray-50 no-scrollbar">
             {messages.map((message, index) => {
-              if (message.role === "assistant") {
-                return (
-                  //
+              const isAssistant = message.role === "assistant";
 
-                  <div key={index} className="max-sm:text-sm relative">
-                    {name.split(" ")[0].replace("/[.,]/g, ", "")}:{" "}
+              return (
+                <div
+                  key={index}
+                  className={`flex ${
+                    isAssistant ? "justify-start" : "justify-end"
+                  }`}>
+                  <div
+                    className={`
+              max-sm:text-sm
+              p-3
+              rounded-lg
+              max-w-[70%]
+              whitespace-pre-wrap
+              my-4 
+              max-sm:my-1
+              ${
+                isAssistant
+                  ? "bg-blue-500 text-white"
+                  : "bg-green-500 text-white"
+              }
+            `}>
                     <p>{message.content}</p>
                   </div>
-                );
-              } else {
-                return (
-                  <p key={index} className="text-primary max-sm:text-sm">
-                    {userName}: {message.content}
-                  </p>
-                );
-              }
+                </div>
+              );
             })}
+            <div ref={bottomRef} className="h-2 absolute bottom-1"></div>
           </div>
         </section>
       </div>
@@ -286,7 +305,11 @@ const CompanionSessionComponent = ({
           callStatus === CallStatus.CONNECTING && "animate-pulse",
           callStatus === CallStatus.ACTIVE ? "bg-red-500" : "bg-black"
         )}>
-        {callStatus === CallStatus.ACTIVE ? "End session" : "Start Session"}
+        {callStatus === CallStatus.ACTIVE
+          ? "End session"
+          : callStatus === CallStatus.CONNECTING
+          ? "Connecting..."
+          : "Start Session"}
       </Button>
     </div>
   );
