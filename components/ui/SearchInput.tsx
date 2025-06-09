@@ -36,7 +36,7 @@ const SearchInput = () => {
     }, 500);
   }, [searchQuery, router, searchParams, pathName]);
   return (
-    <div className="flex h-fit border-2 rounded-lg border-gray-100 relative items-center">
+    <div className="flex h-fit border-2 rounded-lg border-gray-100 w-full relative items-center">
       <Input
         placeholder="search"
         value={searchQuery}

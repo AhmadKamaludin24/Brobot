@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
+import LoadingComponent from "@/components/loader/LoadingComponent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,7 +14,6 @@ const geistSans = Geist({
 const inter = Inter({
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "Brobot",
@@ -25,17 +26,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-       <html lang="en">
-      <body
-        className={`${inter.className} antialiased 
-        `}
-      >
-        <Navbar/>
-        {children}
-      </body>
-    </html>
-    </ClerkProvider>
-   
+    <Suspense fallback={<LoadingComponent/>}>
+      <ClerkProvider>
+        <html lang="en">
+          <body
+            className={`${inter.className} antialiased 
+        `}>
+          <LoadingComponent/>
+            <Navbar />
+            {children}
+          </body>
+        </html>
+      </ClerkProvider>
+    </Suspense>
   );
 }

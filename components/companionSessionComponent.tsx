@@ -2,13 +2,14 @@
 import { cn, configureAssistant } from "@/lib/utils";
 import { vapi } from "@/lib/vapi.sdk";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import soundwaves from "@/lib/constants/soundwaves.json";
 import { Button } from "./ui/button";
 import {
   getUserCallUsage,
   updateUserCallUsage,
 } from "@/lib/actions/companion.action";
+import LoadingComponent from "./loader/LoadingComponent";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -225,54 +226,56 @@ const CompanionSessionComponent = ({
   }, [messages]);
 
   return (
-    <div className="pt-5 min-w-7xl flex flex-col justify-between items-center mx-5 py-5">
-      <div className=" w-full relative flex flex-col p-4 gap-4 justify-center items-center min-h-96 rounded-2xl border-2 border-gray-400">
-        {remainingTime !== null && (
-          <p className="absolute top-3 right-4">
-            Time left: {Math.floor(remainingTime / 60)}:
-            {(remainingTime % 60).toString().padStart(2, "0")}
-          </p>
-        )}
-        <div className="w-36 h-36 bg-amber-500 rounded-full flex justify-center items-center relative">
-          <div
-            className={cn(
-              "absolute transition-opacity duration-1000",
-              callStatus === CallStatus.FINISHED ||
-                callStatus === CallStatus.INACTIVE
-                ? "opacity-100"
-                : "opacity-0",
-              callStatus === CallStatus.CONNECTING && "opacity-100 animate-ping"
-            )}>
-            <div className=" w-fit h-fit"></div>
+    <Suspense fallback={<LoadingComponent/>}>
+      <div className="pt-5 min-w-7xl flex flex-col justify-between items-center mx-5 py-5">
+        <div className=" w-full relative flex flex-col p-4 gap-4 justify-center items-center min-h-96 rounded-2xl border-2 border-gray-400">
+          {remainingTime !== null && (
+            <p className="absolute top-3 right-4">
+              Time left: {Math.floor(remainingTime / 60)}:
+              {(remainingTime % 60).toString().padStart(2, "0")}
+            </p>
+          )}
+          <div className="w-36 h-36 bg-amber-500 rounded-full flex justify-center items-center relative">
+            <div
+              className={cn(
+                "absolute transition-opacity duration-1000",
+                callStatus === CallStatus.FINISHED ||
+                  callStatus === CallStatus.INACTIVE
+                  ? "opacity-100"
+                  : "opacity-0",
+                callStatus === CallStatus.CONNECTING &&
+                  "opacity-100 animate-ping"
+              )}>
+              <div className=" w-fit h-fit"></div>
+            </div>
+            <div
+              className={cn(
+                "absolute transition-opacity duration-1000",
+                callStatus === CallStatus.ACTIVE ? "opacity-100" : "opacity-0",
+                callStatus === CallStatus.CONNECTING &&
+                  "opacity-100 animate-pulse"
+              )}>
+              <Lottie
+                lottieRef={lottieRef}
+                animationData={soundwaves}
+                autoplay={true}
+                className="w-[300px]"
+              />
+            </div>
           </div>
-          <div
-            className={cn(
-              "absolute transition-opacity duration-1000",
-              callStatus === CallStatus.ACTIVE ? "opacity-100" : "opacity-0",
-              callStatus === CallStatus.CONNECTING &&
-                "opacity-100 animate-pulse"
-            )}>
-            <Lottie
-              lottieRef={lottieRef}
-              animationData={soundwaves}
-              autoplay={true}
-              className="w-[300px]"
-            />
-          </div>
-        </div>
-        <section className="max-w-[100%] max-sm:max-w-[100%] p-5 overflow-hidden rounded-md">
-          <div className="relative flex flex-col-reverse gap-2 p-5 max-h-[400px] max-sm:max-h-[200px] overflow-y-auto bg-gray-50 no-scrollbar">
-            {messages.map((message, index) => {
-              const isAssistant = message.role === "assistant";
+          <section className="max-w-[100%] max-sm:max-w-[100%] p-5 overflow-hidden rounded-md">
+            <div className="relative flex flex-col-reverse gap-2 p-5 max-h-[400px] max-sm:max-h-[200px] overflow-y-auto bg-gray-50 no-scrollbar">
+              {messages.map((message, index) => {
+                const isAssistant = message.role === "assistant";
 
-              return (
-                <div
-                  key={index}
-                  className={`flex ${
-                    isAssistant ? "justify-start" : "justify-end"
-                  }`}>
+                return (
                   <div
-                    className={`
+                    key={index}
+                    className={`flex ${
+                      isAssistant ? "justify-start" : "justify-end"
+                    }`}>
+                    <div
+                      className={`
               max-sm:text-sm
               p-3
               rounded-lg
@@ -286,32 +289,33 @@ const CompanionSessionComponent = ({
                   : "bg-green-500 text-white"
               }
             `}>
-                    <p>{message.content}</p>
+                      <p>{message.content}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-            <div ref={bottomRef} className="h-2 absolute bottom-1"></div>
-          </div>
-        </section>
-      </div>
+                );
+              })}
+              <div ref={bottomRef} className="h-2 absolute bottom-1"></div>
+            </div>
+          </section>
+        </div>
 
-      <Button
-        onClick={
-          callStatus === CallStatus.ACTIVE ? handleDisconect : handleCall
-        }
-        className={cn(
-          "mt-7 rounded-lg py-2 bg-red-500 ",
-          callStatus === CallStatus.CONNECTING && "animate-pulse",
-          callStatus === CallStatus.ACTIVE ? "bg-red-500" : "bg-black"
-        )}>
-        {callStatus === CallStatus.ACTIVE
-          ? "End session"
-          : callStatus === CallStatus.CONNECTING
-          ? "Connecting..."
-          : "Start Session"}
-      </Button>
-    </div>
+        <Button
+          onClick={
+            callStatus === CallStatus.ACTIVE ? handleDisconect : handleCall
+          }
+          className={cn(
+            "mt-7 rounded-lg py-2 bg-red-500 ",
+            callStatus === CallStatus.CONNECTING && "animate-pulse",
+            callStatus === CallStatus.ACTIVE ? "bg-red-500" : "bg-black"
+          )}>
+          {callStatus === CallStatus.ACTIVE
+            ? "End session"
+            : callStatus === CallStatus.CONNECTING
+            ? "Connecting..."
+            : "Start Session"}
+        </Button>
+      </div>
+    </Suspense>
   );
 };
 

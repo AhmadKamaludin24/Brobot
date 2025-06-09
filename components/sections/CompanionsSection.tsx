@@ -4,9 +4,7 @@ import Link from "next/link";
 import { getAllCompanions } from "@/lib/actions/companion.action";
 import { getSubjectColor } from "@/lib/utils";
 
-
-
-const CompanionsSection = async() => {
+const CompanionsSection = async () => {
   const companions = await getAllCompanions({ limit: 3, page: 1 });
   return (
     <div className="container flex flex-col mx-auto px-5 py-3 gap-2">
@@ -32,9 +30,6 @@ const CompanionsSection = async() => {
             color={getSubjectColor(companion.subject)} // You can customize the color based on companion data
           />
         ))}
-
-   
-
       </div>
     </div>
   );
