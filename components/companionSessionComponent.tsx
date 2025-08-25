@@ -10,6 +10,7 @@ import {
   updateUserCallUsage,
 } from "@/lib/actions/companion.action";
 import LoadingComponent from "./loader/LoadingComponent";
+import { toast } from "sonner";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -164,6 +165,16 @@ const CompanionSessionComponent = ({
   }, []);
 
   const handleCall = async () => {
+    
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const hasMic = devices.some((device) => device.kind === "audioinput");
+    
+
+    if (!hasMic) {
+      toast.error("Microphone not found. Please connect a mic to start the session or enable microphone access.");
+      setCallStatus(CallStatus.INACTIVE);
+      return;
+    }
     const remaining = await getUserCallUsage();
     if (remaining <= 0) {
       alert("You have no remaining time for this session.");
@@ -226,7 +237,7 @@ const CompanionSessionComponent = ({
   }, [messages]);
 
   return (
-    <Suspense fallback={<LoadingComponent/>}>
+    <Suspense fallback={<LoadingComponent />}>
       <div className="pt-5 min-w-7xl flex flex-col justify-between items-center mx-5 py-5">
         <div className=" w-full relative flex flex-col p-4 gap-4 justify-center items-center min-h-96 rounded-2xl border-2 border-gray-400">
           {remainingTime !== null && (
@@ -245,7 +256,8 @@ const CompanionSessionComponent = ({
                   : "opacity-0",
                 callStatus === CallStatus.CONNECTING &&
                   "opacity-100 animate-ping"
-              )}>
+              )}
+            >
               <div className=" w-fit h-fit"></div>
             </div>
             <div
@@ -254,7 +266,8 @@ const CompanionSessionComponent = ({
                 callStatus === CallStatus.ACTIVE ? "opacity-100" : "opacity-0",
                 callStatus === CallStatus.CONNECTING &&
                   "opacity-100 animate-pulse"
-              )}>
+              )}
+            >
               <Lottie
                 lottieRef={lottieRef}
                 animationData={soundwaves}
@@ -273,7 +286,8 @@ const CompanionSessionComponent = ({
                     key={index}
                     className={`flex ${
                       isAssistant ? "justify-start" : "justify-end"
-                    }`}>
+                    }`}
+                  >
                     <div
                       className={`
               max-sm:text-sm
@@ -288,7 +302,8 @@ const CompanionSessionComponent = ({
                   ? "bg-blue-500 text-white"
                   : "bg-green-500 text-white"
               }
-            `}>
+            `}
+                    >
                       <p>{message.content}</p>
                     </div>
                   </div>
@@ -307,7 +322,8 @@ const CompanionSessionComponent = ({
             "mt-7 rounded-lg py-2 bg-red-500 ",
             callStatus === CallStatus.CONNECTING && "animate-pulse",
             callStatus === CallStatus.ACTIVE ? "bg-red-500" : "bg-black"
-          )}>
+          )}
+        >
           {callStatus === CallStatus.ACTIVE
             ? "End session"
             : callStatus === CallStatus.CONNECTING

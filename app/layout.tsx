@@ -5,6 +5,7 @@ import Navbar from "@/components/ui/Navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Suspense } from "react";
 import LoadingComponent from "@/components/loader/LoadingComponent";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
           <LoadingComponent/>
             <Navbar />
             {children}
+            <Toaster position="top-center"/>
           </body>
         </html>
       </ClerkProvider>
